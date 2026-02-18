@@ -1,30 +1,34 @@
-mariadb:
-  container_name: lab-3-mariadb
-  image: mariadb
-  volumes:
-    - mariadb:/var/lib/mysql
-  ports:
-    - 3306:3306
-  restart: always
-  environment:
-    MYSQL_ALLOW_EMPTY_PASSWORD: "no"
-    MYSQL_ROOT_PASSWORD: toor
+version: '3'
 
-    MYSQL_USER: $MYSQL_USER
-    MYSQL_PASSWORD: $MYSQL_PASSWORD
-    MYSQL_DATABASE: $MYSQL_DATABASE
+services:
+  mysql-db:
+    image: mysql:latest
+    container_name: mysql-container
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: your_root_password # Change this!
+      MYSQL_DATABASE: my_database             # Optional: initial database
+      MYSQL_USER: my_user                     # Optional: initial user
+      MYSQL_PASSWORD: my_user_password        # Optional: initial user password
+    ports:
+      - "3306:3306" # Map port 3306 on host to 3306 in container
+    volumes:
+      - db_data:/var/lib/mysql # Persist data in a Docker volume
 
-phpmyadmin:
-  container_name: lab-3-phpmyadmin
-  image: phpmyadmin/phpmyadmin
-  depends_on:
-    - mariadb
-  restart: always
-  ports:
-    - 8080:80
-  environment:
-    PMA_HOST: mariadb
-    MYSQL_ROOT_PASSWORD: toor
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin-container
+    restart: unless-stopped
+    ports:
+      - "8080:80" # Access phpMyAdmin via http://localhost:8080
+    environment:
+      PMA_HOST: mysql-db # Connect to the 'mysql-db' service name
+      MYSQL_ROOT_PASSWORD: your_root_password # Use the same root password as above
+    depends_on:
+      - mysql-db # Ensure MySQL starts first
+
+  fastapi:
+    image: 
 
 volumes:
-  mariadb:
+  db_data: # Define the volume
