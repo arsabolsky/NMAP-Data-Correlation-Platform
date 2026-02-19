@@ -35,6 +35,39 @@ Once the server is running, you can access the interactive documentation at:
 - **Swagger UI:** [http://localhost:8000/docs](http://localhost:8000/docs)
 - **Redoc:** [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
+## Docker Management
+These commands should be run from the root of the project directory.
+
+### Start the environment
+```bash
+docker compose -f .devcontainer/docker-compose.yml up -d
+```
+
+### Rebuild and start (use after changing Dockerfile or .env)
+```bash
+docker compose -f .devcontainer/docker-compose.yml up -d --build
+```
+
+### Stop the containers (preserves data)
+```bash
+docker compose -f .devcontainer/docker-compose.yml stop
+```
+
+### Tear down the environment (removes containers/networks)
+```bash
+docker compose -f .devcontainer/docker-compose.yml down
+```
+
+### Reset everything (removes containers, networks, and WIPES database volumes)
+```bash
+docker compose -f .devcontainer/docker-compose.yml down -v
+```
+
+### View Logs
+```bash
+docker compose -f .devcontainer/docker-compose.yml logs -f
+```
+
 ## Key Concepts
 ### What is an APIRouter?
 In a FastAPI app, a **Router** acts as a "Traffic Controller". Instead of putting all your URLs into one giant `main.py` file, you use routers to group related endpoints (like all `/scans` or all `/users`) into their own files. This keeps the code organized, allows for easy versioning (like `/api/v1` and `/api/v2`), and makes it simpler to manage large projects.
