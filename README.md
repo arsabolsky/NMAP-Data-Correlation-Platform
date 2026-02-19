@@ -28,8 +28,6 @@ All configuration is handled in the `.env` file in the root directory.
 ## Architecture
 - **`app/main.py`**: The application entry point.
 - **`app/api/v1/`**: Directory for versioned API routes.
-- **`app/models/`**: SQL database models.
-- **`app/schemas/`**: Pydantic models for data validation.
 - **`app/core/`**: Global configuration and settings.
 
 ## Accessing Documentation
