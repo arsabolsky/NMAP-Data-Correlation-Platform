@@ -4,7 +4,7 @@
   // Specify the Docker Compose file to use for setting up the environment
   "dockerComposeFile": "docker-compose.yml",
   // The service VSCode should connect to (this corresponds to 'app' in docker-compose.yml)
-  "service": "app",
+  "service": "api",
   // Where VSCode will open the project folder inside the container
   "workspaceFolder": "/workspaces/NMAP-Data-Correlation-Platform",
   "customizations": {
