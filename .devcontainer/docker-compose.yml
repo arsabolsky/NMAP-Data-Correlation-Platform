@@ -1,7 +1,7 @@
 # Services: Defines each containerized application in our setup.
 services:
   # 'app': The container that runs your FastAPI code.
-  app:
+  api:
     # build: Instructions for creating the Docker Image.
     build:
       # context: The "working area" for the build (the parent folder).
@@ -46,7 +46,7 @@ services:
 
   # 'phpmyadmin': A web-based manager for MySQL.
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+    image: phpmyadmin:latest
     restart: always
     env_file:
       - ../.env

@@ -11,11 +11,11 @@
             "module": "uvicorn",
             "args": [
                 "app.main:app", // Point to the app object in your code.
-                "--reload",     // Auto-restart the server whenever you save code changes.
+                "--reload", // Auto-restart the server whenever you save code changes.
                 "--host",
-                "0.0.0.0",      // Listen on all network addresses inside the container.
+                "0.0.0.0", // Listen on all network addresses inside the container.
                 "--port",
-                "8000"          // The port that maps back to your computer.
+                "8000" // The port that maps back to your computer.
             ],
             // jinja: A templating language. Setting this to 'true' 
             // allows the debugger to help you fix errors in HTML templates.
