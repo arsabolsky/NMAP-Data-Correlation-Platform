@@ -1,16 +1,17 @@
 # Services: Defines each containerized application in our setup.
 services:
   # 'app': The container that runs your FastAPI code.
-  api:
+  app:
     # build: Instructions for creating the Docker Image.
     build:
       # context: The "working area" for the build (the parent folder).
       context: ..
       # dockerfile: Path to the specific instructions for building this image.
       dockerfile: .devcontainer/Dockerfile
+    container_name: api-service
     # env_file: Loads a '.env' file containing your secrets (passwords, URLs).
-    env_file:
-      - ../.env
+    # env_file:
+    #   - ../.env
     # volumes: "Maps" a local folder on your computer to a folder in the container.
     # Any changes you save on your computer are instantly visible in the container.
     volumes:
@@ -30,11 +31,12 @@ services:
   # 'db': The MySQL database container.
   db:
     # image: Instead of building, we use an "Official Image" from Docker Hub.
-    image: mysql:8.0
+    image: mysql:latest
+    container_name: db-service
     # restart: always: Automatically restarts if it crashes or you reboot.
     restart: always
-    env_file:
-      - ../.env
+    # env_file:
+    #   - ../.env
     # environment: Direct environment variables, like root passwords.
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -47,13 +49,13 @@ services:
   # 'phpmyadmin': A web-based manager for MySQL.
   phpmyadmin:
     image: phpmyadmin:latest
+    container_name: phpmyadmin-service
     restart: always
-    env_file:
-      - ../.env
+    # env_file:
+    #   - ../.env
     environment:
       # PMA_HOST: Tells phpMyAdmin which database service to connect to.
-      PMA_HOST: db
-      PMA_USER: root
+      PMA_HOST: db-service
       PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - "8080:80"

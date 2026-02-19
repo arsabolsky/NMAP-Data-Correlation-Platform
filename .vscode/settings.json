@@ -1,0 +1,11 @@
+{
+    "terminal.integrated.env.linux": {
+        "PYTHONPATH": "${workspaceFolder}"
+    },
+    "python.terminal.executeInFileDir": false,
+    "python.envFile": "${workspaceFolder}/.env",
+    "dev.containers.dockerComposeOptions": [
+        "--env-file",
+        ".env"
+    ]
+}

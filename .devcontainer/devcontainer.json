@@ -4,16 +4,16 @@
   // Specify the Docker Compose file to use for setting up the environment
   "dockerComposeFile": "docker-compose.yml",
   // The service VSCode should connect to (this corresponds to 'app' in docker-compose.yml)
-  "service": "api",
+  "service": "app",
   // Where VSCode will open the project folder inside the container
   "workspaceFolder": "/workspaces/NMAP-Data-Correlation-Platform",
   "customizations": {
     "vscode": {
       // Automatically install these extensions in the container when it's built
       "extensions": [
-        "ms-python.python",        // Essential Python support for VSCode
+        "ms-python.python", // Essential Python support for VSCode
         "ms-python.vscode-pylance", // Improved IntelliSense and type checking
-        "charliermarsh.ruff"       // Fast Python linter and formatter
+        "charliermarsh.ruff" // Fast Python linter and formatter
       ]
     }
   },
