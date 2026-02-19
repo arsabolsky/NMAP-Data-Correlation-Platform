@@ -1,0 +1,25 @@
+{
+  // Name of the Dev Container configuration
+  "name": "NMAP-Data-Correlation-Platform",
+  // Specify the Docker Compose file to use for setting up the environment
+  "dockerComposeFile": "docker-compose.yml",
+  // The service VSCode should connect to (this corresponds to 'app' in docker-compose.yml)
+  "service": "app",
+  // Where VSCode will open the project folder inside the container
+  "workspaceFolder": "/workspaces/NMAP-Data-Correlation-Platform",
+  "customizations": {
+    "vscode": {
+      // Automatically install these extensions in the container when it's built
+      "extensions": [
+        "ms-python.python",        // Essential Python support for VSCode
+        "ms-python.vscode-pylance", // Improved IntelliSense and type checking
+        "charliermarsh.ruff"       // Fast Python linter and formatter
+      ]
+    }
+  },
+  // The user VSCode will run as inside the container (root in this case)
+  "remoteUser": "root",
+  // Command to run after the container is successfully created
+  // uv sync ensures all dependencies are installed and up to date
+  "postCreateCommand": "uv sync"
+}

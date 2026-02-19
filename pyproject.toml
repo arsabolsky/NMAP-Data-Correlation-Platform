@@ -1,0 +1,30 @@
+[project]
+name = "nmap-data-correlation-platform"
+version = "0.1.0"
+description = "Create an NMAP database where users will be able to quickly search and correlate nmap results for relevant information such as operating system, open ports, and IPs."
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "fastapi>=0.128.8",
+    "uvicorn>=0.39.0",
+]
+
+[dependency-groups]
+dev = [
+    "debugpy>=1.8.20",
+]
+
+[tool.ruff]
+# Enable specific linting rules (standard and popular Python checks)
+select = ["E", "F", "I", "W", "UP"]
+# Ignore some rules if necessary (e.g., E501 for long lines)
+ignore = ["E501"]
+# Use a target Python version for modern syntax checks
+target-version = "py312"
+
+[tool.ruff.format]
+# Configure automatic code formatting
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"

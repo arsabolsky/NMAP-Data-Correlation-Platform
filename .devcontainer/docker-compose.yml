@@ -1,34 +1,61 @@
-version: '3'
-
+# Services: Defines each containerized application in our setup.
 services:
-  mysql-db:
-    image: mysql:latest
-    container_name: mysql-container
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: your_root_password # Change this!
-      MYSQL_DATABASE: my_database             # Optional: initial database
-      MYSQL_USER: my_user                     # Optional: initial user
-      MYSQL_PASSWORD: my_user_password        # Optional: initial user password
-    ports:
-      - "3306:3306" # Map port 3306 on host to 3306 in container
+  # 'app': The container that runs your FastAPI code.
+  app:
+    # build: Instructions for creating the Docker Image.
+    build:
+      # context: The "working area" for the build (the parent folder).
+      context: ..
+      # dockerfile: Path to the specific instructions for building this image.
+      dockerfile: .devcontainer/Dockerfile
+    # env_file: Loads a '.env' file containing your secrets (passwords, URLs).
+    env_file:
+      - ../.env
+    # volumes: "Maps" a local folder on your computer to a folder in the container.
+    # Any changes you save on your computer are instantly visible in the container.
     volumes:
-      - db_data:/var/lib/mysql # Persist data in a Docker volume
-
-  phpmyadmin:
-    image: phpmyadmin:latest
-    container_name: phpmyadmin-container
-    restart: unless-stopped
+      - ..:/workspaces/NMAP-Data-Correlation-Platform:cached
+    # ports: "Maps" a port on your local machine to a port inside the container.
+    # [Local Port]:[Container Port]
     ports:
-      - "8080:80" # Access phpMyAdmin via http://localhost:8080
-    environment:
-      PMA_HOST: mysql-db # Connect to the 'mysql-db' service name
-      MYSQL_ROOT_PASSWORD: your_root_password # Use the same root password as above
+      - "8000:8000"
+    # command: Overrides the default command the container would run.
+    # 'sleep infinity' keeps the container alive so VSCode can manage it.
+    command: sleep infinity
+    # depends_on: Specifies the startup order.
+    # 'app' won't start until 'db' (the database) is up and running.
     depends_on:
-      - mysql-db # Ensure MySQL starts first
+      - db
 
-  fastapi:
-    image: 
+  # 'db': The MySQL database container.
+  db:
+    # image: Instead of building, we use an "Official Image" from Docker Hub.
+    image: mysql:8.0
+    # restart: always: Automatically restarts if it crashes or you reboot.
+    restart: always
+    env_file:
+      - ../.env
+    # environment: Direct environment variables, like root passwords.
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
 
-volumes:
-  db_data: # Define the volume
+  # 'phpmyadmin': A web-based manager for MySQL.
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    env_file:
+      - ../.env
+    environment:
+      # PMA_HOST: Tells phpMyAdmin which database service to connect to.
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "8080:80"
+    depends_on:
+      - db

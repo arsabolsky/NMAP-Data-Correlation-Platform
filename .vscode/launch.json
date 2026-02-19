@@ -1,0 +1,29 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: FastAPI",
+            // debugpy: The standard VSCode Python debugger.
+            "type": "debugpy",
+            "request": "launch",
+            // module: Tells the debugger to run 'uvicorn' as a Python module.
+            // Uvicorn is an "ASGI Server" (the software that serves your web app).
+            "module": "uvicorn",
+            "args": [
+                "app.main:app", // Point to the app object in your code.
+                "--reload",     // Auto-restart the server whenever you save code changes.
+                "--host",
+                "0.0.0.0",      // Listen on all network addresses inside the container.
+                "--port",
+                "8000"          // The port that maps back to your computer.
+            ],
+            // jinja: A templating language. Setting this to 'true' 
+            // allows the debugger to help you fix errors in HTML templates.
+            "jinja": true,
+            // justMyCode: When 'true', the debugger will only stop at 
+            // breakpoints you set in YOUR files, not in library code 
+            // (like FastAPI's own internal logic).
+            "justMyCode": true
+        }
+    ]
+}
