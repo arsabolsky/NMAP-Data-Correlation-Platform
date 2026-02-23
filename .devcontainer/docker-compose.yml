@@ -43,6 +43,9 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - db-data:/var/lib/mysql
+      - ../migrations/init:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
 
@@ -61,3 +64,6 @@ services:
       - "8080:80"
     depends_on:
       - db
+
+volumes:
+  db-data:
