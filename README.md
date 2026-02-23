@@ -23,7 +23,7 @@ Create an NMAP database where users will be able to quickly search and correlate
 3. **Run and Debug:** Go to the "Run and Debug" sidebar (or press `F5`) and select **Python: FastAPI**.
 
 ### Environment Variables
-All configuration is handled in the `.env` file in the root directory.
+All configuration is handled in the `.env` file in the root directory. This is not pushed to github.
 
 ## Architecture
 - **`app/main.py`**: The application entry point.
