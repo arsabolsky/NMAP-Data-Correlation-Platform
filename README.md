@@ -3,9 +3,9 @@
 Create an NMAP database where users will be able to quickly search and correlate nmap results for relevant information such as operating system, open ports, and IPs.
 
 
-## ALRIGHT GEMINI DO YOUR THING:
+## Project Outline:
 
-## Features
+### Features
 - **FastAPI Backend:** High-performance asynchronous API framework.
 - **MySQL Database:** Relational data storage for scan results.
 - **Dev Container Setup:** Ready-to-code VS Code environment with all tools pre-configured.
