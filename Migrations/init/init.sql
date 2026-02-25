@@ -16,21 +16,21 @@ CREATE TABLE EMPLOYEE (
     UID INT PRIMARY KEY,
     LID INT NOT NULL,
     Username VARCHAR(255) NOT NULL UNIQUE,
-    PasswordHash VARCHAR(255) NOT NULL,
-    Email VARCHAR(255) NOT NULL UNIQUE,
-    PointOfContact BOOLEAN NOT NULL,
+    PasswordHash VARCHAR(64) NOT NULL, -- SHA256 hash is always 64 chars
+    Email VARCHAR(255) NOT NULL UNIQUE CHECK (Email LIKE '%@%'),
+    PointOfContact BOOLEAN NOT NULL DEFAULT FALSE,
     FirstName VARCHAR(255) NOT NULL,
     LastName VARCHAR(255) NOT NULL,
     FOREIGN KEY (LID) REFERENCES LOCATION(LID)
 );
 
 CREATE TABLE SCAN (
-    Scan_ID INT PRIMARY KEY,
-    LID INT NOT NULL,
+    Scan_ID INT PRIMARY KEY CHECK (Scan_ID >= 1000), -- ensures length of 4 digits
+    LID INT NOT NULL, 
     Date DATE NOT NULL,
     Time TIME NOT NULL,
     IP_Address VARCHAR(45) NOT NULL,
     OS VARCHAR(255) NOT NULL,
-    Open_Ports VARCHAR(255) NOT NULL,
+    Open_Ports TEXT NOT NULL, -- Text is used for large string data
     FOREIGN KEY (LID) REFERENCES LOCATION(LID)
 );
