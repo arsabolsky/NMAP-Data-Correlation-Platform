@@ -31,7 +31,7 @@ CREATE TABLE EMPLOYEE (
 
 CREATE TABLE SCAN (
     -- Unique numeric, min of 4 digits
-    Scan_ID SERIAL PRIMARY KEY, -- THIS BREAKS EVERYTHING ---> CHECK (Scan_ID >= 1000) ---> #3818 - Check constraint 'SCAN_chk_1' cannot refer to an auto-increment column.
+    Scan_ID SERIAL PRIMARY KEY,
     LID BIGINT UNSIGNED NOT NULL, 
     Date DATE NOT NULL, -- This will be ISO 860 YYYY-MM-DD
     Time TIME NOT NULL, -- This will be ISO 8601 HH:MM:SS

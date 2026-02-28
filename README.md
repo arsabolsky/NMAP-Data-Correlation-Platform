@@ -107,7 +107,7 @@ In a FastAPI app, a **Router** acts as a "Traffic Controller". Instead of puttin
 
 ## Database Management
 
-- **phpMyAdmin:** [http://localhost:8080](http://localhost:8080) (Root Password: `root_password`)
+- **phpMyAdmin:** [http://localhost:8080](http://localhost:8080)
 
 ## Database & Migration Guide
 
