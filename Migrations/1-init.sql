@@ -9,10 +9,7 @@ CREATE TABLE LOCATION (
     CID BIGINT UNSIGNED NOT NULL,
     LocationName VARCHAR(255) NOT NULL,
     Address VARCHAR(255) NOT NULL, -- This will be our ISO 20022 PostalAddress
-    FOREIGN KEY (CID) REFERENCES COMPANY(CID) ON DELETE CASCADE 
-    -- I had gemini review this and it suggested adding on delete... 
-    -- basically if we delete a location (parent table) it will go through and kill of foreign key references as well such as scans leaving no orphan scans
-    -- Super duper smart stuff
+    FOREIGN KEY (CID) REFERENCES COMPANY(CID) ON DELETE CASCADE -- If we delete a location (parent table) it will go through and kill of foreign key references as well such as scans leaving no orphan scans
 );
 
 CREATE TABLE EMPLOYEE (
@@ -24,7 +21,7 @@ CREATE TABLE EMPLOYEE (
     PointOfContact BOOLEAN NOT NULL DEFAULT FALSE,
     FirstName VARCHAR(255) NOT NULL,
     LastName VARCHAR(255) NOT NULL,
-    FOREIGN KEY (LID) REFERENCES LOCATION(LID)
+    FOREIGN KEY (LID) REFERENCES LOCATION(LID) ON DELETE CASCADE
 );
 
 CREATE TABLE SCAN (
@@ -35,5 +32,5 @@ CREATE TABLE SCAN (
     IP_Address VARCHAR(45) NOT NULL,
     OS VARCHAR(255) NOT NULL,
     Open_Ports TEXT NOT NULL, -- Text is used for large string data
-    FOREIGN KEY (LID) REFERENCES LOCATION(LID)
+    FOREIGN KEY (LID) REFERENCES LOCATION(LID) ON DELETE CASCADE
 );
