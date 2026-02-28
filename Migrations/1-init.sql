@@ -1,6 +1,7 @@
 CREATE TABLE COMPANY (
     CID SERIAL PRIMARY KEY,
     CompanyName VARCHAR(255) NOT NULL,
+    -- Email (Contains @)
     Admin_Contact VARCHAR(255) NOT NULL CHECK (Admin_Contact LIKE '%@%')
 );
 
@@ -15,12 +16,16 @@ CREATE TABLE LOCATION (
 CREATE TABLE EMPLOYEE (
     UID SERIAL PRIMARY KEY,
     LID BIGINT UNSIGNED NOT NULL,
-    Username VARCHAR(255) NOT NULL UNIQUE,
-    PasswordHash VARCHAR(64) NOT NULL, -- SHA256 hash is always 64 chars
+    -- Alphanumeric, min 12 chars
+    Username VARCHAR(255) NOT NULL UNIQUE CHECK (Username REGEXP '^[a-zA-Z0-9]{12,}$'),
+    -- SHA256 hash is always 64 chars
+    PasswordHash VARCHAR(64) NOT NULL CHECK (CHAR_LENGTH(PasswordHash) = 64),
+    -- Unique Email (Contains @)
     Email VARCHAR(255) NOT NULL UNIQUE CHECK (Email LIKE '%@%'),
     PointOfContact BOOLEAN NOT NULL DEFAULT FALSE,
-    FirstName VARCHAR(255) NOT NULL,
-    LastName VARCHAR(255) NOT NULL,
+    -- Alphabetic chars only
+    FirstName VARCHAR(255) NOT NULL CHECK (FirstName REGEXP '^[a-zA-Z]+$'),
+    LastName VARCHAR(255) NOT NULL CHECK (LastName REGEXP '^[a-zA-Z]+$'),
     FOREIGN KEY (LID) REFERENCES LOCATION(LID) ON DELETE CASCADE
 );
 
