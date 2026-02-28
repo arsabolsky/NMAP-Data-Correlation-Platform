@@ -16,8 +16,8 @@ CREATE TABLE LOCATION (
 CREATE TABLE EMPLOYEE (
     UID SERIAL PRIMARY KEY,
     LID BIGINT UNSIGNED NOT NULL,
-    -- Alphanumeric, min 12 chars
-    Username VARCHAR(255) NOT NULL UNIQUE CHECK (Username REGEXP '^[a-zA-Z0-9]{12,}$'),
+    -- Alphanumeric
+    Username VARCHAR(255) NOT NULL UNIQUE CHECK (Username REGEXP '^[a-zA-Z0-9]+$'),
     -- SHA256 hash is always 64 chars
     PasswordHash VARCHAR(64) NOT NULL CHECK (CHAR_LENGTH(PasswordHash) = 64),
     -- Unique Email (Contains @)
@@ -40,4 +40,4 @@ CREATE TABLE SCAN (
     OS VARCHAR(255) NOT NULL,
     Open_Ports TEXT NOT NULL, -- Text is used for large string containing a JSON disctionary ex: [8080,80,443,24]
     FOREIGN KEY (LID) REFERENCES LOCATION(LID) ON DELETE CASCADE
-) AUTO_INCREMENT = 0000; -- ensures length of 4 digits
+) AUTO_INCREMENT = 1000; -- ensures length of 4 digits
