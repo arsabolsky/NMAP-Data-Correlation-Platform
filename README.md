@@ -9,7 +9,7 @@ Create an NMAP database where users will be able to quickly search and correlate
 - **FastAPI Backend:** High-performance asynchronous API framework.
 - **MySQL Database:** Relational data storage for scan results.
 - **Dev Container Setup:** Ready-to-code VS Code environment with all tools pre-configured.
-  <!-- - **Project Structure:** Scalable directory organization (Models, Schemas, API V1). -->
+    <!-- - **Project Structure:** Scalable directory organization (Models, Schemas, API V1). -->
 
 ## Getting Started
 
@@ -99,11 +99,11 @@ docker compose -f .devcontainer/docker-compose.yml down -v
 docker compose -f .devcontainer/docker-compose.yml logs -f
 ```
 
-## Key Concepts
+<!-- ## Key Concepts
 
 ### What is an APIRouter?
 
-In a FastAPI app, a **Router** acts as a "Traffic Controller". Instead of putting all your URLs into one giant `main.py` file, you use routers to group related endpoints (like all `/scans` or all `/users`) into their own files. This keeps the code organized, allows for easy versioning (like `/api/v1` and `/api/v2`), and makes it simpler to manage large projects.
+In a FastAPI app, a **Router** acts as a "Traffic Controller". Instead of putting all your URLs into one giant `main.py` file, you use routers to group related endpoints (like all `/scans` or all `/users`) into their own files. This keeps the code organized, allows for easy versioning (like `/api/v1` and `/api/v2`), and makes it simpler to manage large projects. -->
 
 ## Database Management
 
