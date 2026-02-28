@@ -9,7 +9,7 @@ Create an NMAP database where users will be able to quickly search and correlate
 - **FastAPI Backend:** High-performance asynchronous API framework.
 - **MySQL Database:** Relational data storage for scan results.
 - **Dev Container Setup:** Ready-to-code VS Code environment with all tools pre-configured.
-    <!-- - **Project Structure:** Scalable directory organization (Models, Schemas, API V1). -->
+      <!-- - **Project Structure:** Scalable directory organization (Models, Schemas, API V1). -->
 
 ## Getting Started
 
@@ -113,8 +113,8 @@ In a FastAPI app, a **Router** acts as a "Traffic Controller". Instead of puttin
 
 ### Software Used
 
-- **MySQL 8.0+**: Primary relational database with strict data integrity enforcement.
-- **phpMyAdmin**: Web-based administration tool.
+- **MySQL (latest)**: Primary relational database with strict data integrity enforcement.
+- **phpMyAdmin (latest)**: Web-based administration tool.
 - **Docker & Docker Compose**: Orchestrates the API and Database services.
 
 ### Connection Details
@@ -123,6 +123,19 @@ In a FastAPI app, a **Router** acts as a "Traffic Controller". Instead of puttin
 - **Port:** `3306`
 - **User:** `user` (Defined in `.env`)
 - **Database:** `nmap_db`
+
+## 🔌 Database Connectivity
+
+To connect to the database from your local machine or from within the Docker environment, use the following credentials:
+
+| Setting            | Value                                                |
+| :----------------- | :--------------------------------------------------- |
+| **Local Host**     | `127.0.0.1`/ `localhost` (Local)                     |
+| **Container Host** | `db-service` (Use this for `DATABASE_URL` in `.env`) |
+| **Port**           | `3306`                                               |
+| **User**           | `user` (as defined in your `.env`)                   |
+| **Database Name**  | `nmap_db`                                            |
+| **phpMyAdmin**     | `http://localhost:8080`                              |
 
 ### Running Migrations Manually
 
