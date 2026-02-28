@@ -2,9 +2,9 @@
 -- 1. Insert into COMPANY (Base table)
 INSERT INTO COMPANY (CID, CompanyName, Admin_Contact)
 VALUES 
-(1, 'Cyberdyne Systems', 'Sarah Connor'),
-(2, 'Initech', 'Bill Lumbergh'),
-(3, 'Soylent Corp', 'Robert Thorn');
+(1, 'Cyberdyne Systems', 'Sarah@Connor.com'),
+(2, 'Initech', 'Bill@Lumbergh.com'),
+(3, 'Soylent Corp', 'Robert@Thorn.com');
 
 -- 2. Insert into LOCATION (Depends on COMPANY)
 INSERT INTO LOCATION (LID, CID, LocationName, Address)

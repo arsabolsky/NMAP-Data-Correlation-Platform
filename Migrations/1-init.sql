@@ -1,15 +1,18 @@
 CREATE TABLE COMPANY (
     CID SERIAL PRIMARY KEY,
     CompanyName VARCHAR(255) NOT NULL,
-    Admin_Contact VARCHAR(255) NOT NULL
+    Admin_Contact VARCHAR(255) NOT NULL CHECK (Admin_Contact LIKE '%@%')
 );
 
 CREATE TABLE LOCATION (
     LID SERIAL PRIMARY KEY,
     CID BIGINT UNSIGNED NOT NULL,
     LocationName VARCHAR(255) NOT NULL,
-    Address VARCHAR(255) NOT NULL,
-    FOREIGN KEY (CID) REFERENCES COMPANY(CID)
+    Address VARCHAR(255) NOT NULL, -- This will be our ISO 20022 PostalAddress
+    FOREIGN KEY (CID) REFERENCES COMPANY(CID) ON DELETE CASCADE 
+    -- I had gemini review this and it suggested adding on delete... 
+    -- basically if we delete a location (parent table) it will go through and kill of foreign key references as well such as scans leaving no orphan scans
+    -- Super duper smart stuff
 );
 
 CREATE TABLE EMPLOYEE (
