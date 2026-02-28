@@ -30,12 +30,14 @@ CREATE TABLE EMPLOYEE (
 );
 
 CREATE TABLE SCAN (
-    Scan_ID SERIAL PRIMARY KEY, -- CHECK (Scan_ID >= 1000), -- ensures length of 4 digits
+    -- Unique numeric, min of 4 digits
+    Scan_ID SERIAL PRIMARY KEY, -- THIS BREAKS EVERYTHING ---> CHECK (Scan_ID >= 1000) ---> #3818 - Check constraint 'SCAN_chk_1' cannot refer to an auto-increment column.
     LID BIGINT UNSIGNED NOT NULL, 
-    Date DATE NOT NULL,
-    Time TIME NOT NULL,
-    IP_Address VARCHAR(45) NOT NULL,
+    Date DATE NOT NULL, -- This will be ISO 860 YYYY-MM-DD
+    Time TIME NOT NULL, -- This will be ISO 8601 HH:MM:SS
+    -- IPv4 & IPv6 or bust (ALSO HOW COOL IS THIS MYSQL FUCTION!?!?)
+    IP_Address VARCHAR(45) NOT NULL CHECK (INET6_ATON(IP_Address) IS NOT NULL),
     OS VARCHAR(255) NOT NULL,
-    Open_Ports TEXT NOT NULL, -- Text is used for large string data
+    Open_Ports TEXT NOT NULL, -- Text is used for large string containing a JSON disctionary ex: [8080,80,443,24]
     FOREIGN KEY (LID) REFERENCES LOCATION(LID) ON DELETE CASCADE
-);
+) AUTO_INCREMENT = 0000; -- ensures length of 4 digits
