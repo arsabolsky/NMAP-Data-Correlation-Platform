@@ -1,4 +1,0 @@
-CREATE VIEW [Scan Results] AS
-SELECT 
-FROM 
-WHERE 
