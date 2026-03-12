@@ -2,6 +2,13 @@
 
 Create an NMAP database where users will be able to quickly search and correlate nmap results for relevant information such as operating system, open ports, and IPs.
 
+```sql
+CREATE VIEW companies_and_locations AS
+SELECT c.CompanyName, c.Admin_Contact, l.LID, l.LocationName, l.Address
+FROM COMPANY c
+JOIN LOCATION l ON c.CID = l.CID
+```
+
 ## Project Outline:
 
 ### Features
