@@ -1,5 +1,6 @@
 # Services: Defines each containerized application in our setup.
 services:
+
   # 'db': The MySQL database container.
   db:
     # image: Instead of building, we use an "Official Image" from Docker Hub.
@@ -34,6 +35,22 @@ services:
       PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - "8080:80"
+    depends_on:
+      - db
+
+  # 'frontend': React/Vite application.
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: frontend-service
+    restart: always
+    ports:
+      - "5173:5173"
+    volumes:
+      - ..:/workspaces/NMAP-Data-Correlation-Platform:cached
+      - ../frontend:/app
+      - /app/node_modules # Prevents local node_modules from overwriting container node_modules
     depends_on:
       - db
 
