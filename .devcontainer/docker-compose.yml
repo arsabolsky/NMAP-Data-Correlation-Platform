@@ -1,33 +1,5 @@
 # Services: Defines each containerized application in our setup.
 services:
-  # 'app': The container that runs your FastAPI code.
-  app:
-    # build: Instructions for creating the Docker Image.
-    build:
-      # context: The "working area" for the build (the parent folder).
-      context: ..
-      # dockerfile: Path to the specific instructions for building this image.
-      dockerfile: .devcontainer/Dockerfile
-    container_name: api-service
-    # env_file: Loads a '.env' file containing your secrets (passwords, URLs).
-    # env_file:
-    #   - ../.env
-    # volumes: "Maps" a local folder on your computer to a folder in the container.
-    # Any changes you save on your computer are instantly visible in the container.
-    volumes:
-      - ..:/workspaces/NMAP-Data-Correlation-Platform:cached
-    # ports: "Maps" a port on your local machine to a port inside the container.
-    # [Local Port]:[Container Port]
-    ports:
-      - "8000:8000"
-    # command: Overrides the default command the container would run.
-    # 'sleep infinity' keeps the container alive so VSCode can manage it.
-    command: sleep infinity
-    # depends_on: Specifies the startup order.
-    # 'app' won't start until 'db' (the database) is up and running.
-    depends_on:
-      - db
-
   # 'db': The MySQL database container.
   db:
     # image: Instead of building, we use an "Official Image" from Docker Hub.
