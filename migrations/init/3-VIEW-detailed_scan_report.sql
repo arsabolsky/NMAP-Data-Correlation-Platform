@@ -1,3 +1,4 @@
+-- PostgreSQL Compatible View
 CREATE VIEW detailed_scan_report AS
 SELECT 
     s.Scan_ID,

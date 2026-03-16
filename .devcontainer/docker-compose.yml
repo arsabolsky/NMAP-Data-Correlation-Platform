@@ -1,42 +1,56 @@
 # Services: Defines each containerized application in our setup.
 services:
-
-  # 'db': The MySQL database container.
+  # 'db': The PostgreSQL database container.
   db:
-    # image: Instead of building, we use an "Official Image" from Docker Hub.
-    image: mysql:latest
+    image: postgres:latest
     container_name: db-service
-    # restart: always: Automatically restarts if it crashes or you reboot.
     restart: always
-    # env_file:
-    #   - ../.env
-    # environment: Direct environment variables, like root passwords.
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      - db-data:/var/lib/mysql
+      - db-data:/var/lib/postgresql
       - ../migrations/init:/docker-entrypoint-initdb.d
     ports:
-      - "3306:3306"
+      - "5432:5432"
+
+  # 'db': The MySQL database container (Commented out).
+  # db:
+  #   # image: Instead of building, we use an "Official Image" from Docker Hub.
+  #   image: mysql:latest
+  #   container_name: db-service
+  #   # restart: always: Automatically restarts if it crashes or you reboot.
+  #   restart: always
+  #   # env_file:
+  #   #   - ../.env
+  #   # environment: Direct environment variables, like root passwords.
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  #     MYSQL_DATABASE: ${MYSQL_DATABASE}
+  #     MYSQL_USER: ${MYSQL_USER}
+  #     MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+  #   volumes:
+  #     - db-data:/var/lib/mysql
+  #     - ../migrations/init:/docker-entrypoint-initdb.d
+  #   ports:
+  #     - "3306:3306"
 
   # 'phpmyadmin': A web-based manager for MySQL.
-  phpmyadmin:
-    image: phpmyadmin:latest
-    container_name: phpmyadmin-service
-    restart: always
-    # env_file:
-    #   - ../.env
-    environment:
-      # PMA_HOST: Tells phpMyAdmin which database service to connect to.
-      PMA_HOST: db-service
-      PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    ports:
-      - "8080:80"
-    depends_on:
-      - db
+  # phpmyadmin:
+  #   image: phpmyadmin:latest
+  #   container_name: phpmyadmin-service
+  #   restart: always
+  #   # env_file:
+  #   #   - ../.env
+  #   environment:
+  #     # PMA_HOST: Tells phpMyAdmin which database service to connect to.
+  #     PMA_HOST: db-service
+  #     PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  #   ports:
+  #     - "8080:80"
+  #   depends_on:
+  #     - db
 
   # 'frontend': React/Vite application.
   frontend:
