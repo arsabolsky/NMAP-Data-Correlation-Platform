@@ -14,6 +14,19 @@ services:
       - ../migrations/init:/docker-entrypoint-initdb.d
     ports:
       - "5432:5432"
+    
+    dreamfactory:
+    image: dreamfactorysoftware/df-docker:latest
+    container_name: dreamfactory-service
+    restart: always
+    ports:
+      - "80:80" # You can change this to "8081:80" if 80 is taken
+    environment:
+      # DreamFactory needs its own internal system DB; 
+      # using SQLite keeps it simple and separate from your MySQL data.
+      - DF_DB_CONNECTION=sqlite 
+    depends_on:
+      - db
 
   # 'db': The MySQL database container (Commented out).
   # db:
