@@ -14,17 +14,16 @@ services:
       - ../migrations/init:/docker-entrypoint-initdb.d
     ports:
       - "5432:5432"
-    
-    dreamfactory:
-    image: dreamfactorysoftware/df-docker:latest
-    container_name: dreamfactory-service
-    restart: always
+
+  postgrest:
+    image: postgrest/postgrest
+    container_name: postgrest-service
     ports:
-      - "80:80" # You can change this to "8081:80" if 80 is taken
+      - "3000:3000"
     environment:
-      # DreamFactory needs its own internal system DB; 
-      # using SQLite keeps it simple and separate from your MySQL data.
-      - DF_DB_CONNECTION=sqlite 
+      PGRST_DB_URI: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      PGRST_DB_SCHEMA: public
+      PGRST_DB_ANON_ROLE: web_anon
     depends_on:
       - db
 
