@@ -1,3 +1,4 @@
+-- Jackson did all of this. lol He is the brains in the opperation.
 -- Create a specific database role for PostgREST to use for anonymous requests.
 -- This does NOT modify your existing tables or data; it only adds a permission layer.
 CREATE ROLE web_anon NOLOGIN;
