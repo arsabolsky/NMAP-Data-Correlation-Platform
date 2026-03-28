@@ -1,17 +1,22 @@
-# NMAP-Data-Correlation-Platform
+# NMAP Data Correlation Platform
 
-Create an NMAP database where users will be able to quickly search and correlate nmap results for relevant information such as operating system, open ports, and IPs.
+A centralized platform for searching and correlating NMAP scan results. This tool allows users to quickly identify trends, operating systems, open ports, and IP addresses across their infrastructure.
 
-## Project Outline:
+## 🚀 Features
 
-### Features
+- **Frontend:** Modern, responsive UI built with **React (Vite)**, **Tailwind CSS 4.0**, and **Shadcn UI**.
+- **Backend:** High-performance RESTful API powered by **PostgREST**, providing instant access to PostgreSQL tables and views.
+- **Database:** **PostgreSQL** relational storage for scan results, companies, locations, and employee data.
+- **Views:** Pre-configured database views for comprehensive reporting and easy data correlation.
+- **Dev Container Setup:** Ready-to-code VS Code environment with all tools (Node, Postgres, PostgREST) pre-configured.
 
-- **FastAPI Backend:** High-performance asynchronous API framework.
-- **MySQL Database:** Relational data storage for scan results.
-- **Dev Container Setup:** Ready-to-code VS Code environment with all tools pre-configured.
-      <!-- - **Project Structure:** Scalable directory organization (Models, Schemas, API V1). -->
+## 🛠️ Project Structure
 
-## Getting Started
+- `frontend/`: React/Vite application with Tailwind CSS and Shadcn UI.
+- `migrations/`: SQL migration scripts for database initialization, views, and seed data.
+- `.devcontainer/`: Configuration for the Dockerized development environment.
+
+## 🏁 Getting Started
 
 ### Prerequisites
 
@@ -20,142 +25,86 @@ Create an NMAP database where users will be able to quickly search and correlate
 
 ### How to Run
 
-1. **Open in VS Code:** Open the project folder on your machine.
-2. **Reopen in Container:** When prompted, click **Reopen in Container** (or press `Cmd+Shift+P` / `Ctrl+Shift+P` and type "Reopen in Container").
-3. **Run and Debug:** Go to the "Run and Debug" sidebar (or press `F5`) and select **Python: FastAPI**.
+1.  **Clone the Repository.**
+2.  **Environment Setup:**
+    ```bash
+    cp .env.example .env
+    ```
+    *(The defaults in `.env.example` are pre-configured to work with the Docker setup).*
 
-### Environment Variables
+#### Option A: VS Code Dev Containers (Recommended)
+This is the easiest way to get started. VS Code will automatically handle all dependencies, database setup, and tool configurations.
 
-All configuration is handled in a `.env` file in the .devcontainer (long story but basically I can't use `../.env` 🤷‍♂️) directory. This file is ignored by git to protect your secrets.
+3.  **Open in VS Code:** Open the project folder.
+4.  **Reopen in Container:** When prompted, click **Reopen in Container** (or press `Cmd+Shift+P` and type "Reopen in Container"). 
+    *   **Note:** Once the container builds, the environment is fully configured and services will start automatically.
 
-To get started:
+#### Option B: Manual Docker Compose (No VS Code)
+If you prefer not to use VS Code, you can still run the entire stack manually using Docker.
 
-1. Copy the template: `cp .env.example .env`
-2. Update the values in `.env` if needed.
+3.  **Start Services:**
+    ```bash
+    docker compose -f .devcontainer/docker-compose.yml up -d
+    ```
+4.  **Access:** The services will be available at the URLs listed in the [Accessing the Services](#-accessing-the-services) section below.
 
-#### Example `.env` Structure:
+## 🔌 Accessing the Services
 
+Once the container is running, the following services are available:
+
+| Service      | URL                      | Description                       |
+| :----------- | :----------------------- | :-------------------------------- |
+| **Frontend** | `http://localhost:5173` | React/Vite Application            |
+| **API**      | `http://localhost:3000` | PostgREST API                     |
+| **Database** | `localhost:5432`         | PostgreSQL (Direct Connection)    |
+
+## 🗄️ Database & Migration Guide
+
+### Automatic Initialization
+
+When the project is first started with `docker compose`, the scripts in `migrations/init/` are automatically executed in alphabetical order:
+
+1.  `1-init.sql`: Creates core tables (`COMPANY`, `LOCATION`, `EMPLOYEE`, `SCAN`).
+2.  `2-VIEW-company_and_locations.sql`: Company/Location relationship view.
+3.  `3-VIEW-detailed_scan_report.sql`: Full scan reports view.
+4.  `4-VIEWS-employees_and_locations.sql`: Employee location access view.
+5.  `5-postgrest-setup.sql`: Configures permissions for the PostgREST API (`web_anon` role).
+6.  `6-insert.sql`: Loads sample data.
+
+### Manual Database Management
+
+To run scripts manually, connect to the database container or use `psql` from your host:
+
+#### From Host (using localhost)
 ```bash
-# Database Credentials
-MYSQL_ROOT_PASSWORD=root_password
-MYSQL_DATABASE=nmap_db
-MYSQL_USER=user
-MYSQL_PASSWORD=password
-
-# Application Connection String (SQLAlchemy)
-DATABASE_URL=mysql+pymysql://user:password@db-service:3306/nmap_db
+psql -h localhost -U user -d nmap_db < migrations/delete.sql
 ```
 
-<!-- ## Architecture
+#### From within Dev Container (using db-service)
+```bash
+psql -h db-service -U user -d nmap_db < migrations/delete.sql
+```
 
-- **`app/main.py`**: The application entry point.
-- **`app/api/v1/`**: Directory for versioned API routes.
-- **`app/core/`**: Global configuration and settings. -->
-
-<!-- ## Accessing Documentation
-
-Once the server is running, you can access the interactive documentation at:
-
-- **Swagger UI:** [http://localhost:8000/docs](http://localhost:8000/docs)
-- **Redoc:** [http://localhost:8000/redoc](http://localhost:8000/redoc) -->
-
-## Docker Management
+## 🐳 Docker Management
 
 These commands should be run from the root of the project directory.
 
-### Start the environment
-
-```bash
-docker compose -f .devcontainer/docker-compose.yml up -d
-```
-
 ### Rebuild and start (use after changing Dockerfile or .env)
-
 ```bash
 docker compose -f .devcontainer/docker-compose.yml up -d --build
 ```
 
 ### Stop the containers (preserves data)
-
 ```bash
 docker compose -f .devcontainer/docker-compose.yml stop
 ```
 
-### Tear down the environment (removes containers/networks)
-
-```bash
-docker compose -f .devcontainer/docker-compose.yml down
-```
-
-### Reset everything (removes containers, networks, and WIPES database volumes)
-
+### Reset everything (removes containers and WIPES database volumes)
 ```bash
 docker compose -f .devcontainer/docker-compose.yml down -v
 ```
 
 ### View Logs
-
 ```bash
 docker compose -f .devcontainer/docker-compose.yml logs -f
 ```
-
-<!-- ## Key Concepts
-
-### What is an APIRouter?
-
-In a FastAPI app, a **Router** acts as a "Traffic Controller". Instead of putting all your URLs into one giant `main.py` file, you use routers to group related endpoints (like all `/scans` or all `/users`) into their own files. This keeps the code organized, allows for easy versioning (like `/api/v1` and `/api/v2`), and makes it simpler to manage large projects. -->
-
-## Database Management
-
-- **phpMyAdmin:** [http://localhost:8080](http://localhost:8080)
-
-## Database & Migration Guide
-
-### Software Used
-
-- **MySQL (latest)**: Primary relational database with strict data integrity enforcement.
-- **phpMyAdmin (latest)**: Web-based administration tool.
-- **Docker & Docker Compose**: Orchestrates the API and Database services.
-
-### Connection Details
-
-- **Host:** `127.0.0.1`/`localhost` (Local) or `db-service` (Inside Docker container)
-- **Port:** `3306`
-- **User:** `user` (Defined in `.env`)
-- **Database:** `nmap_db`
-
-## 🔌 Database Connectivity
-
-To connect to the database from your local machine or from within the Docker environment, use the following credentials:
-
-| Setting            | Value                                                |
-| :----------------- | :--------------------------------------------------- |
-| **Local Host**     | `127.0.0.1`/ `localhost` (Local)                     |
-| **Container Host** | `db-service` (Use this for `DATABASE_URL` in `.env`) |
-| **Port**           | `3306`                                               |
-| **User**           | `user` (as defined in your `.env`)                   |
-| **Database Name**  | `nmap_db`                                            |
-| **phpMyAdmin**     | `http://localhost:8080`                              |
-
-### Running Migrations Manually
-
-Run these scripts in order to set up your environment (1-init.sql & 2-insert.sql run automatically on first Docker Compose Up):
-
-1. **Initialize Schema:**
-
-    ```bash
-    mysql -h 127.0.0.1 -P 3306 -u user -p nmap_db < Migrations/init/1-init.sql
-    ```
-
-2. **Insert Sample Data:**
-
-    ```bash
-    mysql -h 127.0.0.1 -P 3306 -u user -p nmap_db < Migrations/2-insert.sql
-    ```
-
-    _Loads test companies, locations, employees, and scans._
-
-3. **Clear Database:**
-    ```bash
-    mysql -h 127.0.0.1 -P 3306 -u user -p nmap_db < Migrations/3-delete.sql
-    ```
