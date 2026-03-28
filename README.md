@@ -58,6 +58,54 @@ Once the container is running, the following services are available:
 | **API**      | `http://localhost:3000` | PostgREST API                     |
 | **Database** | `localhost:5432`         | PostgreSQL (Direct Connection)    |
 
+## 📖 API Documentation
+
+The API is powered by **PostgREST**, which automatically generates a RESTful interface from the PostgreSQL database.
+
+### Global Query Parameters
+Since this API is built on PostgREST, the following parameters apply across all endpoints:
+
+-   **Vertical Filtering (`select`):** Restrict the payload to specific columns.
+    *   *Example:* `GET /employee?select=firstname,lastname,email`
+-   **Horizontal Filtering:** Filter rows using operators like `eq` (equals), `gt` (greater than), `like`, and `ilike`.
+    *   *Example:* `GET /company?companyname=eq.Acme%20Corp`
+-   **Ordering (`order`):** Sort results by one or more columns.
+    *   *Example:* `GET /scan?order=date.desc,time.desc`
+-   **Pagination (`limit` and `offset`):** Control the number of records returned.
+    *   *Example:* `GET /employee?limit=50&offset=100`
+
+### Resources (Core Endpoints)
+These endpoints represent the core tables and support full CRUD operations (**GET**, **POST**, **PATCH**, **DELETE**).
+
+#### `/company`
+Manages company profiles and primary administrative contacts.
+- **Primary Key:** `cid`
+- **Fields:** `cid` (bigint), `companyname` (varchar), `admin_contact` (varchar).
+
+#### `/location`
+Manages physical locations associated with companies.
+- **Primary Key:** `lid`
+- **Fields:** `lid` (bigint), `cid` (bigint), `locationname` (varchar), `address` (varchar).
+
+#### `/employee`
+Manages employee credentials, contact details, and location assignments.
+- **Primary Key:** `uid`
+- **Fields:** `uid` (bigint), `lid` (bigint), `username` (varchar), `passwordhash` (varchar 64), `email` (varchar), `pointofcontact` (boolean), `firstname` (varchar), `lastname` (varchar).
+
+#### `/scan`
+Logs network scans, detected operating systems, and open port configurations.
+- **Primary Key:** `scan_id`
+- **Fields:** `scan_id` (bigint), `lid` (bigint), `date` (date), `time` (time), `ip_address` (varchar), `os` (varchar), `open_ports` (JSONB).
+
+### Views (Reporting Endpoints)
+These endpoints provide joined data for reporting and are **Read-Only (GET)**.
+
+-   **`/companies_and_locations`**: Maps companies directly to their physical location addresses.
+-   **`/employees_and_locations`**: Maps employees to the details of their assigned physical location.
+-   **`/detailed_scan_report`**: A comprehensive report joining scan data with respective company and location names.
+
+---
+
 ## 🗄️ Database & Migration Guide
 
 ### Automatic Initialization
