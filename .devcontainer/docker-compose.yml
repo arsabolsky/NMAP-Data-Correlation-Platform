@@ -13,7 +13,7 @@ services:
       - db-data:/var/lib/postgresql
       - ../migrations/init:/docker-entrypoint-initdb.d
     ports:
-      - "5432:5432"
+      - "5433:5432"
 
   postgrest:
     image: postgrest/postgrest

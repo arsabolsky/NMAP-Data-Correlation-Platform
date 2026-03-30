@@ -125,7 +125,6 @@ export const mockNmapData: NmapResult[] = [
     dateTime: "2026-03-09 11:20:45",
     ipAddress: "192.168.1.80",
     operatingSystem: "Windows Server 2019",
-    operatingSystem: "Windows Server 2019",
     openPorts: "135, 445, 3389, 5985, 5986",
     hostname: "FILE-SERVER-01"
   },
